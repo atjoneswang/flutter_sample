@@ -6,6 +6,8 @@ import 'blur/artist_details_container.dart';
 import 'menupage.dart';
 import 'ui/bottomnav/mainpage.dart';
 import 'models/example_model.dart';
+import 'scopemodel/scope.dart';
+import 'stream/streamdemo.dart';
 
 void main(){
   SystemChrome.setPreferredOrientations([
@@ -32,6 +34,8 @@ class MyApp extends StatelessWidget {
         Routes.animation: (BuildContext context) => new MyHomePage(title: 'Animation'),
         Routes.designui: (BuildContext context) => new ArtistsDetailsAnimator(),
         Routes.bottomnav: (context) => new BottomNav(),
+        Routes.scopemodel: (context) => new ScopeDemo(),
+        Routes.stream: (context) => StreamDemo(),
       },
     );
   }
