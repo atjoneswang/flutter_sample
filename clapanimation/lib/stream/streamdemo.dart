@@ -15,22 +15,24 @@ class _StreamDemoState extends State<StreamDemo> {
   StreamController streamController;
 
   @override
-    void initState() {
-      streamController = StreamController.broadcast();
-      setupData();
-      super.initState();
-    }
+  void initState() {
+    streamController = StreamController.broadcast();
+    setupData();
+    super.initState();
+  }
 
   setupData() async {
     Stream stream = await getData()
-    ..pipe(streamController);
-    stream.listen((data) { setState(() {
-       dataList.add(data[0]);
-       dataList.add(data[1]);
-       });
+      ..asBroadcastStream();
+    stream.listen((data) {
+      setState(() {
+        dataList.add(data[0]);
+        dataList.add(data[1]);
+      });
     });
   }
-@override
+
+  @override
   void dispose() {
     super.dispose();
     streamController?.close();
@@ -47,7 +49,7 @@ class _StreamDemoState extends State<StreamDemo> {
         itemCount: dataList.length,
         itemBuilder: (context, index) {
           final item = dataList[index];
-          if(item is Photo){
+          if (item is Photo) {
             return ListTile(
               title: Text(item.title),
               subtitle: Image.network(
@@ -56,11 +58,11 @@ class _StreamDemoState extends State<StreamDemo> {
               ),
             );
           }
-          if(item is Post){
+          if (item is Post) {
             return ListTile(
               title: Text("Title: ${item.title}"),
               subtitle: Text("Body: ${item.body}"),
-
+              leading: Text(index.toString()),
             );
           }
         },
@@ -69,15 +71,14 @@ class _StreamDemoState extends State<StreamDemo> {
   }
 }
 
-
 class Photo {
   final String url;
   final String title;
   Photo({this.url, this.title});
 
   Photo.fromJson(Map json)
-      :url = json["url"],
-      title = json["title"];
+      : url = json["url"],
+        title = json["title"];
 }
 
 class Post {
@@ -86,16 +87,16 @@ class Post {
   Post({this.title, this.body});
 
   Post.fromJson(Map json)
-  :title = json["title"],
-  body = json["body"];
+      : title = json["title"],
+        body = json["body"];
 }
 
 Future<Stream> getData() async {
   final client = http.Client();
-  Stream streamOne = LazyStream(() async => await getPhotos(client));
-  Stream streamTwo = LazyStream(() async => await getPosts(client));
+  Stream streamOne = await getPhotos(client);
+  Stream streamTwo = await getPosts(client);
 
-  return StreamGroup.merge([streamOne, streamTwo]).asBroadcastStream();
+  return StreamZip([streamOne, streamTwo]).asBroadcastStream();
 }
 
 Future<Stream> getPhotos(http.Client client) async {
@@ -105,10 +106,10 @@ Future<Stream> getPhotos(http.Client client) async {
   http.StreamedResponse streamedResponse = await client.send(req);
 
   return streamedResponse.stream
-          .transform(utf8.decoder)
-          .transform(json.decoder)
-          .expand((e) => e)
-          .map((map) => Photo.fromJson(map));
+      .transform(utf8.decoder)
+      .transform(json.decoder)
+      .expand((e) => e)
+      .map((map) => Photo.fromJson(map));
 }
 
 Future<Stream> getPosts(http.Client client) async {
@@ -118,8 +119,8 @@ Future<Stream> getPosts(http.Client client) async {
   http.StreamedResponse streamedResponse = await client.send(req);
 
   return streamedResponse.stream
-          .transform(utf8.decoder)
-          .transform(json.decoder)
-          .expand((e) => e)
-          .map((map) => Post.fromJson(map));
+      .transform(utf8.decoder)
+      .transform(json.decoder)
+      .expand((e) => e)
+      .map((map) => Post.fromJson(map));
 }
