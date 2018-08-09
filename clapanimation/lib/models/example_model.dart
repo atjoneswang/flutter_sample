@@ -13,6 +13,7 @@ class Routes {
   static const String bottomnav = "/bottomnav";
   static const String scopemodel = "/scopemodel";
   static const String stream = "/stream";
+  static const String datatable = "/datatable";
 }
 
 List<ExampleModel> initModels = [
@@ -22,4 +23,5 @@ List<ExampleModel> initModels = [
   const ExampleModel("Bottom Navigation", "Bottom Navigation Bars", Routes.bottomnav),
   const ExampleModel("Scoped Model", "Counter Demo", Routes.scopemodel),
   const ExampleModel("Stream", "Stream Demo", Routes.stream),
+  const ExampleModel("DataTable", "Data Table demo", Routes.datatable),
   ];

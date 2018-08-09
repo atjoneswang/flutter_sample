@@ -8,6 +8,7 @@ import 'ui/bottomnav/mainpage.dart';
 import 'models/example_model.dart';
 import 'scopemodel/scope.dart';
 import 'stream/streamdemo.dart';
+import 'datatable/datatabledemo.dart';
 
 void main(){
   SystemChrome.setPreferredOrientations([
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         Routes.bottomnav: (context) => new BottomNav(),
         Routes.scopemodel: (context) => new ScopeDemo(),
         Routes.stream: (context) => StreamDemo(),
+        Routes.datatable: (context) => DataTableDemo(),
       },
     );
   }

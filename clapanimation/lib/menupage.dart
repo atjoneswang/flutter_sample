@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'list_menu.dart';
+import 'common/widgetmods.dart';
 
 class MainPage extends StatelessWidget {
   final String title;
@@ -8,18 +9,11 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
     return Container(
-      height: 40.0,
-      decoration: ShapeDecoration(
-        color: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(40.0),
-            topRight: const Radius.circular(40.0),
-          ),
-          side: BorderSide(color: Colors.black38),
-        ),
-      ),
+      decoration: buildRadiusContainer(),
+      margin: EdgeInsets.only(
+            top: statusBarHeight+4, bottom: 12.0, left: 10.0, right: 10.0),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -37,3 +31,4 @@ class MainPage extends StatelessWidget {
     );
   }
 }
+
