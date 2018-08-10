@@ -58,13 +58,16 @@ class _PanelsState extends State<Panels> {
                       ),
                     ),
                   ),
+                  Divider(height: 1.0,),
                   Expanded(
-                    child: Center(
-                      child: Text(
-                        'Front Panel',
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          color: Colors.black,
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          'Front Panel',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
