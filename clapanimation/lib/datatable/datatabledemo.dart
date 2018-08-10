@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import '../common/widgetmods.dart';
 import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+
+import '../common/widgetmods.dart';
 
 class DataTableDemo extends StatefulWidget {
   @override
@@ -9,8 +10,16 @@ class DataTableDemo extends StatefulWidget {
 
 class _DataTableDemoState extends State<DataTableDemo> {
   int _sortColumnIndex = 0;
-  var nameList = getFakeNames();
+  List<Name> nameList;
   bool _sortAscending = true;
+
+  @override
+  void initState(){
+    super.initState();
+    nameList = getFakeNames();
+    _sort((Name n) => n.firstName, _sortColumnIndex, _sortAscending);
+  }
+
   Widget bodyData() => DataTable(
         sortColumnIndex: _sortColumnIndex,
         sortAscending: _sortAscending,
@@ -21,11 +30,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
             onSort: (i, b) {
               print("$i, $b");
               print(_sortAscending);
-              setState(() {
-                _sortColumnIndex = i;
-                nameList.sort((a, b) => a.firstName.compareTo(b.firstName));
-                _sortAscending = _sortAscending == true ? false : true;
-              });
+              _sort<String>((Name n) => n.firstName, i, _sortAscending);
             },
             tooltip: "To display first name of the name",
           ),
@@ -35,11 +40,7 @@ class _DataTableDemoState extends State<DataTableDemo> {
             onSort: (i, b) {
               print("$i, $b");
               print(_sortAscending);
-              setState(() {
-                _sortColumnIndex = i;
-                nameList.sort((a, b) => a.lastName.compareTo(b.lastName));
-                _sortAscending = _sortAscending == true ? false : true;
-              });
+              _sort<String>((Name n) => n.lastName, i, _sortAscending);
             },
             tooltip: "To display last name of the name",
           ),
@@ -59,24 +60,52 @@ class _DataTableDemoState extends State<DataTableDemo> {
                 ]))
             .toList(),
       );
+  
+  void _sort<T>(
+      Comparable<T> getField(Name a), int columnIndex, bool ascending) {
+    setState(() {
+      _sortColumnIndex = columnIndex;
+      _sortAscending = ascending == true ? false : true;
+      nameList.sort((Name a, Name b) {
+        if (!ascending) {
+          final Name c = a;
+          a = b;
+          b = c;
+        }
+        final Comparable<T> aValue = getField(a);
+        final Comparable<T> bValue = getField(b);
+        return Comparable.compare(aValue, bValue);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double statusBarHeight = getStatusBarHeight(context);
     return Container(
-        width: double.infinity,
-        decoration: buildRadiusContainer(),
-        margin: EdgeInsets.only(
-            top: statusBarHeight + 4, bottom: 10.0, left: 10.0, right: 10.0),
-        child: Scaffold(
-          body: SingleChildScrollView(child: bodyData()),
-        ));
+      decoration: BoxDecoration(
+          gradient:
+              LinearGradient(
+                colors: [Colors.cyanAccent, Colors.indigoAccent],
+                begin: Alignment.bottomLeft,
+                end: Alignment.bottomRight
+                )),
+      child: Container(
+          width: double.infinity,
+          decoration: buildRadiusContainer(),
+          margin: EdgeInsets.only(
+              top: statusBarHeight + 4, bottom: 10.0, left: 10.0, right: 10.0),
+          child: Scaffold(
+            body: SingleChildScrollView(child: bodyData()),
+          )),
+    );
   }
 }
 
 class Name {
   String firstName;
   String lastName;
+  bool selected = false;
   Name({this.firstName, this.lastName});
 }
 
