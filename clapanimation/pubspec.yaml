@@ -25,6 +25,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/pagereveal/
     - images/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -44,7 +45,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Flamante
+      fonts:
+        - asset: assets/pagereveal/fonts/Flamante-Roma-Medium.ttf
+        - asset: assets/pagereveal/fonts/Flamante-Roma-MediumItalic.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

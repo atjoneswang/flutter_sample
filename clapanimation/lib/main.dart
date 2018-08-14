@@ -10,6 +10,7 @@ import 'scopemodel/scope.dart';
 import 'stream/streamdemo.dart';
 import 'datatable/datatabledemo.dart';
 import 'backdroppage/backdropdemo.dart';
+import 'package:clipanimation/pagereveal/pagedemo.dart';
 
 void main(){
   SystemChrome.setPreferredOrientations([
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         Routes.stream: (context) => StreamDemo(),
         Routes.datatable: (context) => DataTableDemo(),
         Routes.backdrop: (context) => BackdropDemo(),
+        Routes.pagereveal: (context) => PageRevealDemo(),
       },
     );
   }

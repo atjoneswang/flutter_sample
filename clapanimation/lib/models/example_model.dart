@@ -14,6 +14,7 @@ class Routes {
   static const String stream = "/stream";
   static const String datatable = "/datatable";
   static const String backdrop = "/backdrop";
+  static const String pagereveal = "/pagereveal";
 }
 
 List<ExampleModel> initModels = [
@@ -25,4 +26,5 @@ List<ExampleModel> initModels = [
   const ExampleModel("Stream", "Stream Demo", Routes.stream),
   const ExampleModel("DataTable", "Data Table demo", Routes.datatable),
   const ExampleModel("BackDrop", "BackDrop page", Routes.backdrop),
+  const ExampleModel('Page Reveal', 'Page Reveal Demo', Routes.pagereveal),
 ];
